@@ -5,90 +5,146 @@ namespace Assignment02_233581
         public Form1()
         {
             InitializeComponent();
-            InitailizeLabel();
-            InitailizeTextBox();
-            InitailizeRichTextBox();
-            InitializeCheckBox();
-            InitializeRdioButton();
-            InitializeComboBox();
-            InitializeNumericUpdown();
-            InitializeDateTimePicker();
-            InitializeMonthCalendar();
-            InitializePictureBox();
+            InitializeComboBox1();
+            dateTimePicker1.ValueChanged += new EventHandler(dateTimePicker1_ValueChanged);
+            monthCalendar1.DateChanged += new DateRangeEventHandler(monthCalendar1_DateChanged);
         }
 
-       private void InitailizeLabel()
+        private void button1_Click(object sender, EventArgs e)
         {
-            Label label=new Label();
-            label.Text = "This is a Label!";
-            label.Location = new System.Drawing.Point(20, 20);
-            label.AutoSize = true;
-            this.Controls.Add(label);
+            Font oldFont = this.richTextBox1.SelectionFont;
+            Font newFont;
+
+            if (oldFont != null)
+            {
+
+                if (oldFont.Italic)
+                {
+                    newFont = new Font(oldFont, oldFont.Style & ~FontStyle.Bold);
+                }
+                else
+                {
+                    newFont = new Font(oldFont, oldFont.Style | FontStyle.Underline);
+                }
+            }
+            else
+            {
+                newFont = new Font("Arial", 12, FontStyle.Regular | FontStyle.Underline);
+            }
+
+            this.richTextBox1.SelectionFont = newFont;
+            this.richTextBox1.Focus();
         }
-        private void InitailizeTextBox()
+
+        private void button2_Click(object sender, EventArgs e)
         {
-            TextBox textBox = new TextBox();
-            textBox.Location = new System.Drawing.Point(150, 20);
-            this.Controls.Add(textBox);
+            MessageBox.Show(textBox1.Text);
         }
-        private void InitailizeRichTextBox()
+
+        private void button3_Click(object sender, EventArgs e)
         {
-            RichTextBox richtextBox = new RichTextBox();
-            richtextBox.Location = new System.Drawing.Point(20, 50);
-            richtextBox.Size = new System.Drawing.Size(200, 50);
-            richtextBox.Text = "This is RichTextBox";
-            this.Controls.Add(richtextBox);
+            string items = "";
+
+            if (checkBox1.Checked)
+                items += "\n Pencil";
+
+            if (checkBox2.Checked)
+                items += "\n Sharpener";
+
+            if (checkBox3.Checked)
+                items += "\n Pen";
+
+            if (items.Length > 0)
+            {
+                label1.Text = "You have bought:" + items;
+            }
+            else
+            {
+                label1.Text = "Please select at least one item to buy.";
+            }
         }
-        private void InitializeCheckBox()
+
+        private void button4_Click(object sender, EventArgs e)
         {
-            CheckBox checkBox=new CheckBox();
-            checkBox.Text = "I agree to the terms and conditions.";
-            checkBox.Location = new System.Drawing.Point(20, 120);
-            checkBox.AutoSize = true;
-            this.Controls.Add(checkBox);
+            string gender;
+
+            if (radioButton1.Checked)
+            {
+                gender = "Male";
+            }
+            else if (radioButton2.Checked)
+            {
+                gender = "Female";
+            }
+            else
+            {
+                gender = "Unknown";
+            }
+
+            MessageBox.Show("Selected gender: " + gender);
         }
-        private void InitializeRdioButton()
+
+        private void button5_Click(object sender, EventArgs e)
         {
-            RadioButton radioButton1 = new RadioButton();
-            radioButton1.Text = "Option 1";
-            radioButton1.Location = new System.Drawing.Point(120, 150);
-            this.Controls.Add(radioButton1);
+            decimal price = numericUpDown1.Value;
+            int quantity = (int)numericUpDown2.Value;
+
+            decimal total = price * quantity;
+
+            MessageBox.Show(String.Format("The total price is {0:C}", total));
         }
-        private void InitializeComboBox()
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            ComboBox comboBox = new ComboBox();
-            comboBox.Location = new System.Drawing.Point(20, 180);
-            comboBox.Items.AddRange(new string[] { "Choice 1", "Choice 2", "Choice 3" });
-            this.Controls.Add(comboBox);
+            label1.Visible = false;
+
+            OpenFileDialog o = new OpenFileDialog();
+            if (o.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = new Bitmap(o.FileName);
+                pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
         }
-        private void InitializeNumericUpdown()
+        private void InitializeComboBox1()
         {
-            NumericUpDown numericUpDown = new NumericUpDown();
-            numericUpDown.Location = new System.Drawing.Point(20, 220);
-            numericUpDown.Minimum = 1;
-            numericUpDown.Maximum = 10;
-            this.Controls.Add(numericUpDown);
+            string[] names = { "Tamil Nadu", "Kerala", "Telangana", "Andhra", "Delhi" };
+
+            foreach (string name in names)
+            {
+                comboBox1.Items.Add(name);
+            }
+
+            comboBox1.SelectedIndex = 0;
         }
-        private void InitializeDateTimePicker()
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DateTimePicker dateTimePicker = new DateTimePicker();
-            dateTimePicker.Location = new System.Drawing.Point(20, 260);
-            this.Controls.Add(dateTimePicker);
+            comboBox2.Items.Clear();
+
+            if (comboBox1.SelectedItem.ToString() == "Tamil Nadu")
+            {
+                comboBox2.Items.Add("Chennai");
+                comboBox2.Items.Add("Trichy");
+                comboBox2.Items.Add("Pondicherry");
+                comboBox2.Items.Add("Madurai");
+                comboBox2.Items.Add("Kanchipuram");
+            }
+
+            else if (comboBox1.SelectedItem.ToString() == "Kerala")
+            {
+                comboBox2.Items.Add("Kolam");
+                comboBox2.Items.Add("Cochin");
+                comboBox2.Items.Add("Thiruvananthapuram");
+            }
         }
-        private void InitializeMonthCalendar()
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            MonthCalendar monthCalendar = new MonthCalendar();
-            monthCalendar.Location = new System.Drawing.Point(20, 300);
-            this.Controls.Add(monthCalendar);
+            label15.Text = "DateTimePicker Date: " + dateTimePicker1.Text;
         }
-        private void InitializePictureBox()
+
+        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            PictureBox pictureBox = new PictureBox();
-            pictureBox.Location = new System.Drawing.Point(20, 500);
-            pictureBox.Size = new System.Drawing.Size(100, 100);
-            pictureBox.ImageLocation = "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg";
-            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            this.Controls.Add(pictureBox);
+            label16.Text = "Month Calendar Date: " + monthCalendar1.SelectionStart.ToLongDateString();
         }
     }
 }
