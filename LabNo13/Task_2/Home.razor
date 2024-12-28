@@ -1,0 +1,11 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Server</h1>
+<p>
+    @status at @DateTime.Now
+</p>
+@code {
+    private string status = "Server is offline.";
+}
